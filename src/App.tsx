@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import AboutPage from "./pages/AboutPage";
 import ServicesPage from "./pages/ServicesPage";
 import BlogPage from "./pages/BlogPage";
+import BlogPostPage from "./pages/BlogPostPage";
 import ContactPage from "./pages/ContactPage";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="empresa" element={<AboutPage />} />
           <Route path="servicos" element={<ServicesPage />} />
           <Route path="blog" element={<BlogPage />} />
+          <Route path="blog/:id" element={<BlogPostPage />} />
           <Route path="contato" element={<ContactPage />} />
         </Route>
       </Routes>

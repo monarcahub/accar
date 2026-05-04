@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { BLOG_POSTS } from "../constants";
 import { ArrowRight, Search } from "lucide-react";
 import { supabase } from "../lib/supabase";
@@ -19,24 +20,33 @@ export default function BlogPage() {
 
   useEffect(() => {
     async function fetchPosts() {
-      if (!supabase) return;
+      if (!supabase) {
+        console.warn("Supabase não inicializado. Verifique VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY nas configurações.");
+        return;
+      }
       
       setLoading(true);
+      console.log("Buscando posts do Supabase...");
       const { data, error } = await supabase
         .from('posts_accar')
         .select('*')
         .eq('status', 'active')
         .order('published_at', { ascending: false });
 
-      if (!error && data && data.length > 0) {
-        setPosts(data.map(p => ({
-          id: p.id,
-          title: p.title,
-          excerpt: p.excerpt,
-          image: p.image_url,
-          date: new Date(p.published_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }),
-          category: p.category || 'Dica Técnica'
-        })));
+      if (error) {
+        console.error("Erro ao buscar posts do Supabase:", error);
+      } else if (data) {
+        console.log(`Sucesso! ${data.length} posts encontrados.`);
+        if (data.length > 0) {
+          setPosts(data.map(p => ({
+            id: p.id,
+            title: p.title,
+            excerpt: p.excerpt,
+            image: p.image_url,
+            date: new Date(p.published_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }),
+            category: p.category || 'Dica Técnica'
+          })));
+        }
       }
       setLoading(false);
     }
@@ -82,26 +92,33 @@ export default function BlogPage() {
                 className="group"
               >
                 <div className="relative overflow-hidden rounded-[40px] mb-8 aspect-[4/3]">
-                  <img 
-                    src={post.image} 
-                    alt={post.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                  <Link to={`/blog/${post.id}`}>
+                    <img 
+                      src={post.image} 
+                      alt={post.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </Link>
                 </div>
                 <div className="flex items-center gap-4 mb-4 text-xs font-bold uppercase tracking-widest text-bosch-cyan italic">
                   <span>{post.date}</span>
                   <span className="w-1 h-1 bg-gray-300 rounded-full" />
                   <span className="text-gray-400">{post.category || 'Dica Bosch'}</span>
                 </div>
-                <h2 className="text-2xl font-display font-bold text-dark mb-4 group-hover:text-bosch-blue transition-colors">
-                  {post.title}
-                </h2>
+                <Link to={`/blog/${post.id}`}>
+                  <h2 className="text-2xl font-display font-bold text-dark mb-4 group-hover:text-bosch-blue transition-colors">
+                    {post.title}
+                  </h2>
+                </Link>
                 <p className="text-gray-500 mb-8 font-light line-clamp-2 italic">
                   {post.excerpt}
                 </p>
-                <button className="flex items-center gap-2 font-bold text-dark border-b-2 border-bosch-cyan pb-1 hover:text-bosch-blue hover:border-bosch-blue transition-all">
+                <Link 
+                  to={`/blog/${post.id}`}
+                  className="inline-flex items-center gap-2 font-bold text-dark border-b-2 border-bosch-cyan pb-1 hover:text-bosch-blue hover:border-bosch-blue transition-all"
+                >
                   Ler matéria <ArrowRight size={18} />
-                </button>
+                </Link>
               </motion.article>
             ))}
           </div>

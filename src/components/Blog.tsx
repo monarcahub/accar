@@ -10,8 +10,12 @@ export default function Blog() {
 
   useEffect(() => {
     async function fetchPosts() {
-      if (!supabase) return;
+      if (!supabase) {
+        console.warn("Supabase: Client não inicializado (Homepage Blog). Verifique variáveis de ambiente.");
+        return;
+      }
       
+      console.log("Blog (Home): Buscando posts ativos...");
       const { data, error } = await supabase
         .from('posts_accar')
         .select('*')
@@ -19,7 +23,10 @@ export default function Blog() {
         .order('published_at', { ascending: false })
         .limit(2);
 
-      if (!error && data && data.length > 0) {
+      if (error) {
+        console.error("Supabase Error (Home):", error);
+      } else if (data && data.length > 0) {
+        console.log(`Blog (Home): ${data.length} posts ativos carregados.`);
         setPosts(data.map(p => ({
           id: p.id,
           title: p.title,
@@ -28,6 +35,8 @@ export default function Blog() {
           date: new Date(p.published_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }),
           category: p.category || 'Dica Técnica'
         })));
+      } else {
+        console.log("Blog (Home): Nenhum post ativo encontrado no banco.");
       }
     }
 
@@ -80,16 +89,21 @@ export default function Blog() {
                   <span className="bg-bosch-blue/10 text-bosch-blue text-[10px] uppercase font-black px-3 py-1 rounded-full">{post.category || 'DICA TÉCNICA'}</span>
                   <span className="text-gray-400 text-xs font-bold uppercase tracking-wider">{post.date}</span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-display font-bold text-dark mb-4 group-hover:text-bosch-blue transition-colors">
-                  {post.title}
-                </h3>
+                <Link to={`/blog/${post.id}`} className="block">
+                  <h3 className="text-2xl md:text-3xl font-display font-bold text-dark mb-4 group-hover:text-bosch-blue transition-colors">
+                    {post.title}
+                  </h3>
+                </Link>
                 <p className="text-gray-500 text-lg leading-relaxed font-light mb-6">
                   {post.excerpt}
                 </p>
-                <div className="flex items-center gap-2 font-bold text-bosch-cyan group-hover:gap-4 transition-all">
+                <Link 
+                  to={`/blog/${post.id}`}
+                  className="flex items-center gap-2 font-bold text-bosch-cyan hover:text-bosch-blue group-hover:gap-4 transition-all"
+                >
                   Ler matéria completa
                   <ArrowRight size={20} />
-                </div>
+                </Link>
               </div>
             </motion.article>
           ))}
