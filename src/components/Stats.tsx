@@ -48,7 +48,9 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
   );
 }
 
-export default function Stats() {
+export default function Stats({ customStats }: { customStats?: typeof STATS }) {
+  const statsToDisplay = customStats || STATS;
+  
   return (
     <section className="py-20 relative bg-bosch-blue">
        {/* Background pattern */}
@@ -57,7 +59,7 @@ export default function Stats() {
        
        <div className="container mx-auto px-6 relative z-10">
          <div className="grid md:grid-cols-3 gap-12 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-white/20">
-           {STATS.map((stat) => (
+           {statsToDisplay.map((stat) => (
              <div key={stat.label} className="py-8 md:py-0 px-4 flex flex-col items-center">
                 <Counter value={stat.value} suffix={stat.suffix} />
                 <p className="text-bosch-cyan font-bold uppercase tracking-widest text-sm text-center">

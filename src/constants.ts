@@ -4,7 +4,7 @@ export const APP_CONFIG = {
   since: 1985,
   phone1: "(11) 4996-3772",
   phone2: "(11) 4996-0952",
-  email: "contato@accar.com.br",
+  email: "a.c.car@outlook.com",
   address: "Av. Estados Unidos, 936 - 09120-300 - Parque das Nações, Santo André - São Paulo",
   hours: "Seg à Sex: 08:00 às 17:30",
   bookingUrl: "https://am.boschcarservice.com/br/pt/agende-agora/#/booking/service/18000/workshop/7c4a31a4-e22a-40e7-8333-5b52aba28934/problem-description",
@@ -69,7 +69,7 @@ export const BLOG_POSTS = [
 ];
 
 export const STATS = [
-  { label: "Clientes Atendidos", value: 1275, suffix: "+" },
+  { label: "Clientes Atendidos", value: 8500, suffix: "+" },
   { label: "Anos de Experiência", value: new Date().getFullYear() - 1985, suffix: "" },
   { label: "Satisfação", value: 99, suffix: "%" },
 ];

@@ -1,8 +1,39 @@
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { BLOG_POSTS } from "../constants";
+import { supabase } from "../lib/supabase";
 
 export default function Blog() {
+  const [posts, setPosts] = useState<any[]>(BLOG_POSTS);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      if (!supabase) return;
+      
+      const { data, error } = await supabase
+        .from('posts_accar')
+        .select('*')
+        .eq('status', 'active')
+        .order('published_at', { ascending: false })
+        .limit(2);
+
+      if (!error && data && data.length > 0) {
+        setPosts(data.map(p => ({
+          id: p.id,
+          title: p.title,
+          excerpt: p.excerpt,
+          image: p.image_url,
+          date: new Date(p.published_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }),
+          category: p.category || 'Dica Técnica'
+        })));
+      }
+    }
+
+    fetchPosts();
+  }, []);
+
   return (
     <section id="blog" className="py-24 bg-white">
       <div className="container mx-auto px-6">
@@ -16,14 +47,17 @@ export default function Blog() {
               Confira nossos últimos posts com novidades e dicas fantásticas sobre mecânica e cuidados com o seu carro!
             </p>
           </div>
-          <button className="hidden md:flex items-center gap-2 font-bold text-dark hover:text-bosch-blue transition-colors group">
+          <Link 
+            to="/blog" 
+            className="hidden md:flex items-center gap-2 font-bold text-dark hover:text-bosch-blue transition-colors group"
+          >
             VER BLOG COMPLETO
             <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          {BLOG_POSTS.map((post, idx) => (
+          {posts.map((post, idx) => (
             <motion.article
               key={post.id}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -43,7 +77,7 @@ export default function Blog() {
               
               <div className="px-4">
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="bg-bosch-blue/10 text-bosch-blue text-[10px] uppercase font-black px-3 py-1 rounded-full">DICA TÉCNICA</span>
+                  <span className="bg-bosch-blue/10 text-bosch-blue text-[10px] uppercase font-black px-3 py-1 rounded-full">{post.category || 'DICA TÉCNICA'}</span>
                   <span className="text-gray-400 text-xs font-bold uppercase tracking-wider">{post.date}</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-display font-bold text-dark mb-4 group-hover:text-bosch-blue transition-colors">

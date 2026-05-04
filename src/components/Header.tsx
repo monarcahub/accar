@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X, Phone } from "lucide-react";
 import { APP_CONFIG } from "../constants";
@@ -6,6 +7,7 @@ import { APP_CONFIG } from "../constants";
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,12 +18,30 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { name: "Início", href: "#" },
-    { name: "Empresa", href: "#sobre" },
-    { name: "Serviços", href: "#servicos" },
-    { name: "Blog", href: "#blog" },
-    { name: "Agendar", href: APP_CONFIG.bookingUrl, external: true },
-  ];
+    { name: "Início", href: "/", anchor: "#" },
+    { name: "Empresa", href: "/empresa", anchor: "#sobre" },
+    { name: "Serviços", href: "/servicos", anchor: "#servicos" },
+    { name: "Blog", href: "/blog", anchor: "#blog" },
+    { name: "Contato", href: "/contato", anchor: "#contato" },
+  ].filter(link => {
+    if (pathname === "/" && link.name === "Contato") return false;
+    return true;
+  });
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, anchor: string) => {
+    if (pathname === "/" && anchor.startsWith("#")) {
+      e.preventDefault();
+      const element = document.getElementById(anchor.replace("#", ""));
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      setMobileMenuOpen(false);
+    }
+  };
+
+  const isDarkText = isScrolled || pathname !== "/";
 
   return (
     <header
@@ -31,43 +51,52 @@ export default function Header() {
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-2">
+        <Link to="/" onClick={(e) => handleLinkClick(e, "/", "#")} className="flex items-center gap-2">
           <img 
-            src={isScrolled ? "https://i.ibb.co/b5sDJvD7/logo-accar-site-fundo-branco.png" : "https://i.ibb.co/NdScRMt6/logo-accar-site-fundo-escuro.png"} 
+            src={isDarkText ? "https://i.ibb.co/b5sDJvD7/logo-accar-site-fundo-branco.png" : "https://i.ibb.co/NdScRMt6/logo-accar-site-fundo-escuro.png"} 
             alt="A. C. CAR Logo" 
             className="h-12 md:h-16 w-auto transition-all duration-500"
           />
-        </div>
+        </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
-              target={link.external ? "_blank" : undefined}
-              rel={link.external ? "noopener noreferrer" : undefined}
-              className={`text-sm font-medium transition-colors hover:text-bosch-cyan ${
-                isScrolled ? "text-dark" : "text-white"
-              }`}
+              to={link.href}
+              onClick={(e) => handleLinkClick(e, link.href, link.anchor)}
+              className={`text-sm font-bold uppercase tracking-widest transition-colors hover:text-bosch-cyan ${
+                isDarkText ? "text-dark" : "text-white"
+              } ${pathname === link.href ? "text-bosch-cyan" : ""}`}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
+          <a
+            className={`text-sm font-bold uppercase tracking-widest transition-colors hover:text-bosch-cyan ${
+               isDarkText ? "text-dark" : "text-white"
+            }`}
+            href={APP_CONFIG.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Agendar
+          </a>
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             href={`https://wa.me/${APP_CONFIG.whatsapp}`}
-            className="bg-bosch-blue text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg shadow-bosch-blue/20 flex items-center gap-2"
+            className="bg-bosch-blue text-white px-6 py-3 rounded-full text-xs font-black uppercase tracking-widest shadow-lg shadow-bosch-blue/20 flex items-center gap-2"
           >
-            <Phone size={16} />
+            <Phone size={14} />
             Orçar
           </motion.a>
         </nav>
 
         {/* Mobile Toggle */}
         <button
-          className={`md:hidden p-2 ${isScrolled ? "text-dark" : "text-white"}`}
+          className={`md:hidden p-2 ${isDarkText ? "text-dark" : "text-white"}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -85,15 +114,23 @@ export default function Header() {
           >
             <div className="flex flex-col p-6 gap-4">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-dark text-lg font-medium py-2 border-b border-gray-100"
+                  to={link.href}
+                  onClick={(e) => handleLinkClick(e, link.href, link.anchor)}
+                  className={`text-dark text-lg font-bold py-2 border-b border-gray-100 ${pathname === link.href ? "text-bosch-cyan" : ""}`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
+              <a
+                href={APP_CONFIG.bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-dark text-lg font-bold py-2 border-b border-gray-100"
+              >
+                Agendar
+              </a>
               <a
                 href={`https://wa.me/${APP_CONFIG.whatsapp}`}
                 className="bg-bosch-blue text-white text-center py-4 rounded-xl font-bold mt-4"

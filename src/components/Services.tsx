@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import { ChevronRight, Settings2, ShieldCheck, Wind, Anchor, Zap, Cpu } from "lucide-react";
 import { SERVICES } from "../constants";
 
@@ -30,14 +31,13 @@ export default function Services() {
               Nossos Serviços
             </h2>
           </motion.div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <Link
+            to="/servicos"
             className="flex items-center gap-2 text-bosch-cyan font-bold hover:text-white transition-colors group"
           >
             VER TODOS OS SERVIÇOS
             <ChevronRight className="group-hover:translate-x-1 transition-transform" />
-          </motion.button>
+          </Link>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

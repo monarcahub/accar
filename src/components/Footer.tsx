@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin, Clock, Instagram, Facebook, Youtube, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { APP_CONFIG } from "../constants";
 
 export default function Footer() {
@@ -8,12 +9,13 @@ export default function Footer() {
         <div className="grid lg:grid-cols-4 gap-16 mb-16">
           {/* Logo & Info */}
           <div className="col-span-1 lg:col-span-1">
-            <div className="flex items-center gap-2 mb-8">
-              <div className="w-10 h-10 bg-bosch-blue flex items-center justify-center rounded-sm">
-                <span className="text-white font-bold text-xl">B</span>
-              </div>
-              <h2 className="font-display font-bold text-xl">A. C. CAR</h2>
-            </div>
+            <Link to="/" className="flex items-center gap-2 mb-8">
+              <img 
+                src="https://i.ibb.co/NdScRMt6/logo-accar-site-fundo-escuro.png" 
+                alt="A. C. CAR Logo" 
+                className="h-16 w-auto"
+              />
+            </Link>
             <p className="text-gray-400 font-light mb-8 leading-relaxed">
               Sua oficina especializada Bosch em Santo André. Precisão técnica e confiança desde 1985.
             </p>
@@ -61,12 +63,30 @@ export default function Footer() {
           <div className="col-span-1 lg:col-span-1">
              <h3 className="font-display font-bold text-lg mb-8 uppercase tracking-widest text-bosch-cyan">Atalhos</h3>
              <ul className="space-y-4">
-                {['Empresa', 'Serviços', 'Agendar', 'Blog', 'Localização'].map(item => (
-                  <li key={item}>
-                    <a href="#" className="text-gray-400 hover:text-white flex items-center gap-2 group transition-colors">
-                      <ChevronRight size={14} className="text-bosch-cyan group-hover:translate-x-1 transition-transform" />
-                      {item}
-                    </a>
+                {[
+                  { name: 'Empresa', href: '/empresa' },
+                  { name: 'Serviços', href: '/servicos' },
+                  { name: 'Blog', href: '/blog' },
+                  { name: 'Contato', href: '/contato' },
+                  { name: 'Agendar', href: APP_CONFIG.bookingUrl, external: true }
+                ].map(item => (
+                  <li key={item.name}>
+                    {item.external ? (
+                      <a 
+                        href={item.href} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-gray-400 hover:text-white flex items-center gap-2 group transition-colors"
+                      >
+                        <ChevronRight size={14} className="text-bosch-cyan group-hover:translate-x-1 transition-transform" />
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link to={item.href} className="text-gray-400 hover:text-white flex items-center gap-2 group transition-colors">
+                        <ChevronRight size={14} className="text-bosch-cyan group-hover:translate-x-1 transition-transform" />
+                        {item.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
              </ul>
@@ -91,7 +111,17 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-8 text-[10px] font-bold text-gray-600 uppercase tracking-[0.2em]">
             <span>Políticas de Privacidade</span>
-            <span>Desenvolvido com Paixão</span>
+            <span>
+              Desenvolvido por{" "}
+              <a 
+                href="https://monarcahub.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-bosch-cyan transition-colors"
+              >
+                MonarcaHub
+              </a>
+            </span>
           </div>
         </div>
       </div>

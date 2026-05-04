@@ -1,4 +1,6 @@
 import { motion } from "motion/react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { APP_CONFIG } from "../constants";
 
 export default function About() {
@@ -55,6 +57,15 @@ export default function About() {
               <p>
                 Utilizamos equipamentos de diagnóstico de última geração e peças genuínas para garantir que seu veículo rande com a máxima segurança e performance original.
               </p>
+              <div className="pt-4">
+                <Link 
+                  to="/empresa" 
+                  className="text-bosch-cyan font-bold flex items-center gap-2 hover:gap-4 transition-all group"
+                >
+                  Saber mais
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
             </div>
 
             <div className="mt-10 pt-10 border-t border-gray-200 grid grid-cols-2 gap-8">
