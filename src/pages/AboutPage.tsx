@@ -282,8 +282,9 @@ export default function AboutPage() {
           
           <div className="rounded-[60px] overflow-hidden aspect-video shadow-2xl border-4 border-white/5 grayscale hover:grayscale-0 transition-all duration-1000">
             <iframe 
-               src="https://www.google.com/maps/embed?pb=!4v1713750000000!6m8!1m7!1sCIHM0ogKEICAgIC-z7HwBQ!2m2!1d-23.6317831!2d-46.5294069!3f89.28!4f67.72!5f100" 
+               src="https://www.google.com/maps/embed?pb=!4v1777923707286!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQy16N0h3QlE.!2m2!1d-23.63178306335199!2d-46.52940686682349!3f89.28!4f-22.28!5f0.5970117501821992" 
                className="w-full h-full border-0"
+               allowFullScreen
                loading="lazy"
                referrerPolicy="no-referrer-when-downgrade"
             />
