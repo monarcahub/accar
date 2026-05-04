@@ -16,6 +16,7 @@ export default function BlogPostPage() {
       if (!id) return;
       
       setLoading(true);
+      console.log(`Buscando detalhes do post ID: ${id}...`);
       
       // Tentar buscar no Supabase
       if (supabase) {
@@ -25,7 +26,10 @@ export default function BlogPostPage() {
           .eq('id', id)
           .single();
 
-        if (!error && data) {
+        if (error) {
+          console.error("Erro ao buscar post no Supabase:", error);
+        } else if (data) {
+          console.log("Post encontrado no Supabase:", data.title);
           setPost({
             id: data.id,
             title: data.title,
@@ -40,11 +44,13 @@ export default function BlogPostPage() {
         }
       }
 
+      console.log("Post não encontrado no Banco ou Supabase offline. Tentando dados estáticos...");
       // Fallback para dados estáticos se não encontrar no banco ou banco offline
       const staticPost = BLOG_POSTS.find(p => p.id === Number(id));
       if (staticPost) {
         setPost(staticPost);
       } else {
+        console.error("Post não encontrado em nenhuma fonte. Redirecionando...");
         navigate('/blog');
       }
       setLoading(false);
