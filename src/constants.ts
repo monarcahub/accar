@@ -7,8 +7,8 @@ export const APP_CONFIG = {
   email: "a.c.car@outlook.com",
   address: "Av. Estados Unidos, 936 - 09120-300 - Parque das Nações, Santo André - São Paulo",
   hours: "Seg à Sex: 08:00 às 17:30",
-  bookingUrl: "https://am.boschcarservice.com/br/pt/agende-agora/#/booking/service/18000/workshop/7c4a31a4-e22a-40e7-8333-5b52aba28934/problem-description",
-  whatsapp: "551149963772", // Exemplary number for the button
+  bookingUrl: "https://wa.me/5511998345447",
+  whatsapp: "5511998345447",
 };
 
 export const SERVICES = [

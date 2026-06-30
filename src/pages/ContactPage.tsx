@@ -25,6 +25,17 @@ export default function ContactPage() {
 
             <div>
               <h3 className="text-xl font-display font-bold text-dark mb-6 flex items-center gap-3">
+                <MessageSquare className="text-bosch-cyan" /> WhatsApp
+              </h3>
+              <p className="text-gray-600 text-lg">
+                <a href={`https://wa.me/${APP_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer" className="hover:text-bosch-cyan transition-colors">
+                  (11) 99834-5447
+                </a>
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-display font-bold text-dark mb-6 flex items-center gap-3">
                 <Mail className="text-bosch-cyan" /> E-mail
               </h3>
               <p className="text-gray-600 text-lg break-all">{APP_CONFIG.email}</p>

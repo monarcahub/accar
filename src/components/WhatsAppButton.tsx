@@ -12,9 +12,9 @@ export default function WhatsAppButton() {
       href={`https://wa.me/${APP_CONFIG.whatsapp}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-8 right-8 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center group"
+      className="fixed bottom-8 left-8 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl flex items-center justify-center group"
     >
-      <div className="absolute -top-12 right-0 bg-white text-dark px-4 py-2 rounded-xl text-xs font-bold shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-gray-100 italic">
+      <div className="absolute -top-12 left-0 bg-white text-dark px-4 py-2 rounded-xl text-xs font-bold shadow-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-gray-100 italic">
         Agende agora via WhatsApp!
       </div>
       <MessageSquare fill="currentColor" />

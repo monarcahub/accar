@@ -43,6 +43,14 @@ export default function Footer() {
                 </a>
               </li>
               <li className="flex items-start gap-4 group">
+                <svg className="text-bosch-cyan flex-shrink-0 mt-1 w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.993L2 22l5.13-1.347a9.945 9.945 0 0 0 4.881 1.28c5.505 0 9.988-4.478 9.989-9.984a9.979 9.979 0 0 0-9.988-9.949zm5.836 14.193c-.24.675-1.385 1.287-1.905 1.36-.47.066-.94.12-2.734-.621-2.29-.949-3.766-3.284-3.88-3.434-.114-.15-1.01-1.347-1.01-2.567 0-1.22.637-1.819.865-2.051.228-.232.496-.29.662-.29.165 0 .331.001.475.006.148.006.347-.057.545.415.2.483.682 1.66.742 1.777.06.119.099.256.02.415-.08.158-.12.257-.24.397-.12.139-.25.312-.357.417-.119.119-.243.25-.104.487.139.237.615 1.012 1.317 1.637.904.803 1.66 1.053 1.892 1.171.232.119.367.101.505-.058.139-.158.595-.694.754-.933.158-.238.317-.198.535-.119.218.079 1.385.653 1.624.772.238.119.396.178.455.277.06.1.06.574-.18 1.248z"/>
+                </svg>
+                <a href={`https://wa.me/5511998345447`} target="_blank" rel="noopener noreferrer" className="text-gray-400 group-hover:text-white transition-colors">
+                  WhatsApp: (11) 99834-5447
+                </a>
+              </li>
+              <li className="flex items-start gap-4 group">
                 <Mail className="text-bosch-cyan flex-shrink-0 mt-1" size={20} />
                 <a href={`mailto:${APP_CONFIG.email}`} className="text-gray-400 group-hover:text-white transition-colors break-all">
                   {APP_CONFIG.email}
